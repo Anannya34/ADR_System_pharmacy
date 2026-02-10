@@ -9,7 +9,7 @@
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --header-height: 80px;
+    --header-height: 120px;
 }
 
 * {
@@ -44,24 +44,46 @@ body {
 }
 
 .college-logo {
-    height: 50px;
+    height: 80px;
     width: auto;
     position: absolute;
-    left: 40px;
+    left: 60px;
 }
 
 .college-name {
     flex: 1;
     text-align: center;
     font-family: 'Outfit', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 2.2rem;
+    font-weight: 800;
     color: #1e293b;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.01em;
+    display: flex;
+    justify-content: center;
+    gap: 0.1em;
+    background: linear-gradient(to right,
+            #1e293b 20%,
+            var(--primary) 40%,
+            var(--primary) 60%,
+            #1e293b 80%);
+    background-size: 200% auto;
+    color: #000;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+}
+
+.college-name span {
+    display: inline-block;
     opacity: 0;
-    /* Will be animated by JS */
-    transform: translateY(10px);
-    /* Will be animated by JS */
+    transform: translateY(20px);
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
 }
 
 header {
