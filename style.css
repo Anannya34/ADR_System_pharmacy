@@ -9,6 +9,7 @@
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --header-height: 80px;
 }
 
 * {
@@ -27,6 +28,40 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     min-height: 100vh;
+}
+
+.college-header {
+    height: var(--header-height);
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.college-logo {
+    height: 50px;
+    width: auto;
+    position: absolute;
+    left: 40px;
+}
+
+.college-name {
+    flex: 1;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    /* Will be animated by JS */
+    transform: translateY(10px);
+    /* Will be animated by JS */
 }
 
 header {
