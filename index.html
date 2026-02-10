@@ -16,37 +16,45 @@
 <body>
 
   <header>
-    <h1>💊 Drug Interaction Awareness Tool</h1>
-    <p>Public-safety information only — not a medical decision system</p>
+    <h1>💊 Interaction Aware</h1>
+    <div class="disclaimer-pill">Public safety information • Not medical advice</div>
   </header>
 
   <div class="container">
 
     <div class="card">
-      <h2>Select Medicines</h2>
-      <div class="selector">
-        <select id="drugA">
-          <option value="">Select first medicine</option>
-          <option>Paracetamol</option>
-          <option>Ibuprofen</option>
-          <option>Aspirin</option>
-          <option>Metformin</option>
-          <option>Amlodipine</option>
-          <option>Atenolol</option>
-          <option>Amoxicillin</option>
-        </select>
-        <select id="drugB">
-          <option value="">Select second medicine</option>
-          <option>Paracetamol</option>
-          <option>Ibuprofen</option>
-          <option>Aspirin</option>
-          <option>Metformin</option>
-          <option>Amlodipine</option>
-          <option>Atenolol</option>
-          <option>Amoxicillin</option>
-        </select>
+      <h2>Check Medicine Safety</h2>
+      <div class="selector-group">
+        <div class="selector">
+          <div class="dropdown-container">
+            <label class="dropdown-label">First Medicine</label>
+            <select id="drugA">
+              <option value="">Select medicine...</option>
+              <option>Paracetamol</option>
+              <option>Ibuprofen</option>
+              <option>Aspirin</option>
+              <option>Metformin</option>
+              <option>Amlodipine</option>
+              <option>Atenolol</option>
+              <option>Amoxicillin</option>
+            </select>
+          </div>
+          <div class="dropdown-container">
+            <label class="dropdown-label">Second Medicine</label>
+            <select id="drugB">
+              <option value="">Select medicine...</option>
+              <option>Paracetamol</option>
+              <option>Ibuprofen</option>
+              <option>Aspirin</option>
+              <option>Metformin</option>
+              <option>Amlodipine</option>
+              <option>Atenolol</option>
+              <option>Amoxicillin</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="checkInteraction()">Compare Interactions</button>
       </div>
-      <button onclick="checkInteraction()">Check Interaction</button>
     </div>
 
     <div id="output"></div>
