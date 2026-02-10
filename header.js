@@ -4,29 +4,30 @@ gsap.registerPlugin(ScrollTrigger);
 document.addEventListener('DOMContentLoaded', () => {
     const collegeName = document.getElementById('collegeName');
     const text = collegeName.innerText;
-    collegeName.innerText = '';
+    collegeName.innerHTML = ''; // Clear for animation wrapping
 
-    // Split text into characters and wrap in spans for GSAP
+    // 1. Wrap each character in a span for Anime.js
+    // Moving Letters - inspired structure
     [...text].forEach((char) => {
         const span = document.createElement('span');
+        span.classList.add('letter');
         span.innerText = char === ' ' ? '\u00A0' : char;
         collegeName.appendChild(span);
     });
 
-    // 1. Premium Character Stagger Reveal
-    gsap.from('.college-name span', {
-        opacity: 0,
-        y: 20,
-        duration: 1.2,
-        stagger: 0.03,
-        ease: "expo.out",
-        onComplete: () => {
-            // After reveal, ensure smooth transitions for subsequent interactions
-            gsap.set('.college-name span', { transition: 'none' });
-        }
-    });
+    // 2. High-End Anime.js "Moving Letters" entrance
+    anime.timeline({ loop: false })
+        .add({
+            targets: '.college-name .letter',
+            scale: [4, 1],
+            opacity: [0, 1],
+            translateZ: 0,
+            easing: "easeOutExpo",
+            duration: 950,
+            delay: (el, i) => 70 * i
+        });
 
-    // 2. High-End Logo Entrance
+    // 3. GSAP Entrance for Logo (keeping GSAP for consistency with other elements)
     gsap.from('.college-logo', {
         x: -50,
         opacity: 0,
@@ -35,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         delay: 0.5
     });
 
-    // 3. Ultra-Smooth Scroll Shriniking using ScrollTrigger
+    // 4. Ultra-Smooth Scroll Shriniking using GSAP ScrollTrigger
+    // We use GSAP here because ScrollTrigger is superior for scroll-bound interpolation
     gsap.to('.college-header', {
         height: '80px',
         padding: '0 40px',
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             trigger: 'body',
             start: 'top top',
             end: '+=100',
-            scrub: true, // Ties animation to scroll position
+            scrub: true,
         }
     });
 
