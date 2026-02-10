@@ -142,7 +142,7 @@ header h1 {
     padding: 40px;
     box-shadow: var(--shadow-lg);
     margin-bottom: 30px;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    /* Removed transition properties to prevent conflict with GSAP parallax */
 }
 
 .card:hover {
@@ -236,19 +236,7 @@ button:active {
     display: flex;
     gap: 20px;
     align-items: flex-start;
-    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    /* Removed slideUp animation to fix conflict with GSAP */
 }
 
 .result-content {

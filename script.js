@@ -105,12 +105,14 @@ function checkInteraction() {
         }
 
         // GSAP Entrance Animation for the result
+        gsap.killTweensOf('#interactionResult'); // Kill any previous result animation
         gsap.from('#interactionResult', {
             opacity: 0,
             y: 30,
             scale: 0.95,
             duration: 0.8,
-            ease: "back.out(1.7)"
+            ease: "back.out(1.7)",
+            clearProps: "all" // Ensure it resets to stable CSS after animation
         });
 
     }, 400); // 400ms delay for perceived value
