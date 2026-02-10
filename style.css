@@ -14,7 +14,6 @@
 
 * {
     box-sizing: border-box;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -76,8 +75,8 @@ body {
 
 .college-name span {
     display: inline-block;
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 1;
+    /* Visible by default for stability */
 }
 
 @keyframes shine {
@@ -190,8 +189,8 @@ select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='Length 19 9l-7 7-7-7' /%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 16px center;
     background-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 select:focus {
@@ -212,6 +211,7 @@ button {
     color: white;
     cursor: pointer;
     box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 button:hover {

@@ -7,11 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     collegeName.innerHTML = ''; // Clear for animation wrapping
 
     // 1. Wrap each character in a span for Anime.js
-    // Moving Letters - inspired structure
     [...text].forEach((char) => {
         const span = document.createElement('span');
         span.classList.add('letter');
         span.innerText = char === ' ' ? '\u00A0' : char;
+        // Set initial state via JS to prevent flickering and ensure they start hidden
+        span.style.opacity = '0';
+        span.style.display = 'inline-block';
         collegeName.appendChild(span);
     });
 
@@ -24,51 +26,49 @@ document.addEventListener('DOMContentLoaded', () => {
             translateZ: 0,
             easing: "easeOutExpo",
             duration: 950,
-            delay: (el, i) => 70 * i
+            delay: (el, i) => 70 * i,
+            complete: () => {
+                // Ensure letters stay visible and have no lingering transform issues
+                gsap.set('.college-name .letter', { opacity: 1, scale: 1, clearProps: "transform" });
+            }
         });
 
-    // 3. GSAP Entrance for Logo (keeping GSAP for consistency with other elements)
+    // 3. GSAP Entrance for Logo
     gsap.from('.college-logo', {
         x: -50,
         opacity: 0,
         duration: 1,
         ease: "power2.out",
-        delay: 0.5
+        delay: 0.5,
+        clearProps: "all" // Ensure it doesn't stay in a transformed state
     });
 
-    // 4. Ultra-Smooth Scroll Shriniking using GSAP ScrollTrigger
-    // We use GSAP here because ScrollTrigger is superior for scroll-bound interpolation
-    gsap.to('.college-header', {
+    // 4. Ultra-Smooth Scroll Shrinking using GSAP ScrollTrigger
+    // We use matchMedia to ensure these only run on desktop/larger screens if needed, 
+    // but here we'll keep it simple and robust.
+
+    const headerTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: '+=100',
+            scrub: 0.5, // Added slight smoothing to the scrub
+        }
+    });
+
+    headerTl.to('.college-header', {
         height: '80px',
         padding: '0 40px',
         background: 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(10px)',
-        scrollTrigger: {
-            trigger: 'body',
-            start: 'top top',
-            end: '+=100',
-            scrub: true,
-        }
-    });
+    }, 0);
 
-    gsap.to('.college-logo', {
+    headerTl.to('.college-logo', {
         height: '60px',
         left: '40px',
-        scrollTrigger: {
-            trigger: 'body',
-            start: 'top top',
-            end: '+=100',
-            scrub: true,
-        }
-    });
+    }, 0);
 
-    gsap.to('.college-name', {
+    headerTl.to('.college-name', {
         fontSize: '1.5rem',
-        scrollTrigger: {
-            trigger: 'body',
-            start: 'top top',
-            end: '+=100',
-            scrub: true,
-        }
-    });
+    }, 0);
 });
