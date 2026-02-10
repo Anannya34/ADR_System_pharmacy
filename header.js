@@ -4,71 +4,66 @@ gsap.registerPlugin(ScrollTrigger);
 document.addEventListener('DOMContentLoaded', () => {
     const collegeName = document.getElementById('collegeName');
     const text = collegeName.innerText;
-    collegeName.innerHTML = ''; // Clear for animation wrapping
+    collegeName.innerHTML = '';
 
-    // 1. Wrap each character in a span for Anime.js
+    // 1. Wrap each character for Anime.js
     [...text].forEach((char) => {
         const span = document.createElement('span');
         span.classList.add('letter');
         span.innerText = char === ' ' ? '\u00A0' : char;
-        // Set initial state via JS to prevent flickering and ensure they start hidden
         span.style.opacity = '0';
         span.style.display = 'inline-block';
         collegeName.appendChild(span);
     });
 
-    // 2. High-End Anime.js "Moving Letters" entrance
+    // 2. High-End Anime.js Reveal - Faster and punchier for Phase 8
     anime.timeline({ loop: false })
         .add({
             targets: '.college-name .letter',
-            scale: [4, 1],
+            scale: [3, 1], // Reduced initial scale for a tighter reveal
             opacity: [0, 1],
             translateZ: 0,
             easing: "easeOutExpo",
-            duration: 950,
-            delay: (el, i) => 70 * i,
+            duration: 800, // Faster duration (950 -> 800)
+            delay: (el, i) => 40 * i, // Faster stagger (70 -> 40)
             complete: () => {
-                // Ensure letters stay visible and have no lingering transform issues
                 gsap.set('.college-name .letter', { opacity: 1, scale: 1, clearProps: "transform" });
             }
         });
 
-    // 3. GSAP Entrance for Logo
+    // 3. Logo Entrance
     gsap.from('.college-logo', {
-        x: -50,
+        x: -30,
         opacity: 0,
-        duration: 1,
+        duration: 0.8,
         ease: "power2.out",
-        delay: 0.5,
-        clearProps: "all" // Ensure it doesn't stay in a transformed state
+        delay: 0.3,
+        clearProps: "all"
     });
 
-    // 4. Ultra-Smooth Scroll Shrinking using GSAP ScrollTrigger
-    // We use matchMedia to ensure these only run on desktop/larger screens if needed, 
-    // but here we'll keep it simple and robust.
-
+    // 4. Scroll Shrink Logic - Adjusted for 90px baseline
     const headerTl = gsap.timeline({
         scrollTrigger: {
             trigger: 'body',
             start: 'top top',
-            end: '+=100',
-            scrub: 0.5, // Added slight smoothing to the scrub
+            end: '+=80',
+            scrub: 0.3,
         }
     });
 
     headerTl.to('.college-header', {
-        height: '80px',
-        padding: '0 40px',
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(10px)',
+        height: '65px', // Adjusted shrink height
+        padding: '0 30px',
+        background: 'rgba(255, 255, 255, 0.98)',
+        backdropFilter: 'blur(15px)',
     }, 0);
 
     headerTl.to('.college-logo', {
-        height: '60px',
-        left: '40px',
+        height: '45px',
+        left: '30px',
     }, 0);
 
     headerTl.to('.college-name', {
-        fontSize: '1.5rem',
+        fontSize: '1.3rem',
     }, 0);
 });
