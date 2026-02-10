@@ -80,7 +80,7 @@ function checkInteraction() {
 
         if (!data) {
             output.innerHTML = `
-        <div class="result safe">
+        <div class="result safe" id="interactionResult">
           <div class="icon">✅</div>
           <div class="result-content">
             <div class="result-header">
@@ -92,7 +92,7 @@ function checkInteraction() {
         </div>`;
         } else {
             output.innerHTML = `
-        <div class="result ${data.class}">
+        <div class="result ${data.class}" id="interactionResult">
           <div class="icon">${data.icon}</div>
           <div class="result-content">
             <div class="result-header">
@@ -103,5 +103,15 @@ function checkInteraction() {
           </div>
         </div>`;
         }
-    }, 400);
+
+        // GSAP Entrance Animation for the result
+        gsap.from('#interactionResult', {
+            opacity: 0,
+            y: 30,
+            scale: 0.95,
+            duration: 0.8,
+            ease: "back.out(1.7)"
+        });
+
+    }, 400); // 400ms delay for perceived value
 }

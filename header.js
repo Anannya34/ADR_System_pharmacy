@@ -1,42 +1,72 @@
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('.college-header');
-    const logo = document.querySelector('.college-logo');
-    const name = document.querySelector('.college-name');
-
-    if (window.scrollY > 50) {
-        header.style.height = '80px';
-        logo.style.height = '60px';
-        logo.style.left = '40px';
-        name.style.fontSize = '1.5rem';
-    } else {
-        header.style.height = '120px';
-        logo.style.height = '80px';
-        logo.style.left = '60px';
-        name.style.fontSize = '2.2rem';
-    }
-});
+// Register GSAP ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
     const collegeName = document.getElementById('collegeName');
     const text = collegeName.innerText;
     collegeName.innerText = '';
 
-    // Split text into characters and wrap in spans
-    [...text].forEach((char, i) => {
+    // Split text into characters and wrap in spans for GSAP
+    [...text].forEach((char) => {
         const span = document.createElement('span');
-        span.innerText = char === ' ' ? '\u00A0' : char; // Use non-breaking space for actual spaces
+        span.innerText = char === ' ' ? '\u00A0' : char;
         collegeName.appendChild(span);
-
-        // Staggered reveal
-        setTimeout(() => {
-            span.style.opacity = '1';
-            span.style.transform = 'translateY(0)';
-            span.style.transition = 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
-        }, 100 + (i * 30));
     });
 
-    // Optional: add a subtle shimmer effect on hover
-    collegeName.addEventListener('mouseover', () => {
-        // Shimmer is handled by CSS animation, but we can add more here if needed
+    // 1. Premium Character Stagger Reveal
+    gsap.from('.college-name span', {
+        opacity: 0,
+        y: 20,
+        duration: 1.2,
+        stagger: 0.03,
+        ease: "expo.out",
+        onComplete: () => {
+            // After reveal, ensure smooth transitions for subsequent interactions
+            gsap.set('.college-name span', { transition: 'none' });
+        }
+    });
+
+    // 2. High-End Logo Entrance
+    gsap.from('.college-logo', {
+        x: -50,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out",
+        delay: 0.5
+    });
+
+    // 3. Ultra-Smooth Scroll Shriniking using ScrollTrigger
+    gsap.to('.college-header', {
+        height: '80px',
+        padding: '0 40px',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(10px)',
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: '+=100',
+            scrub: true, // Ties animation to scroll position
+        }
+    });
+
+    gsap.to('.college-logo', {
+        height: '60px',
+        left: '40px',
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: '+=100',
+            scrub: true,
+        }
+    });
+
+    gsap.to('.college-name', {
+        fontSize: '1.5rem',
+        scrollTrigger: {
+            trigger: 'body',
+            start: 'top top',
+            end: '+=100',
+            scrub: true,
+        }
     });
 });
