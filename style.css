@@ -19,8 +19,8 @@
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background: linear-gradient(135deg, #93c5fd 0%, #7dd3fc 20%, #86efac 40%, #67e8f9 60%, #38bdf8 80%, #93c5fd 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    background-size: 200% 200%;
+    animation: gradientShift 20s ease infinite;
     margin: 0;
     padding: 0;
     color: var(--text-main);
@@ -28,6 +28,25 @@ body {
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    transition: background 1s ease-in-out;
+}
+
+body.risk-danger {
+    background: linear-gradient(135deg, #fca5a5 0%, #f87171 20%, #fb923c 40%, #fbbf24 60%, #f97316 80%, #fca5a5 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 20s ease infinite, dangerPulse 4s ease-in-out infinite;
+}
+
+body.risk-moderate {
+    background: linear-gradient(135deg, #fde68a 0%, #fcd34d 20%, #fbbf24 40%, #f59e0b 60%, #d97706 80%, #fde68a 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 20s ease infinite, moderatePulse 5s ease-in-out infinite;
+}
+
+body.risk-safe {
+    background: linear-gradient(135deg, #86efac 0%, #6ee7b7 20%, #34d399 40%, #10b981 60%, #059669 80%, #86efac 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 20s ease infinite, safePulse 6s ease-in-out infinite;
 }
 
 body::before {
@@ -38,13 +57,12 @@ body::before {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(circle at 20% 80%, rgba(125, 211, 252, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(103, 232, 249, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(147, 197, 253, 0.2) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,100 Q50,50 100,100 T200,100 L200,200 L0,200 Z' fill='rgba(255,255,255,0.03)'/%3E%3Cpath d='M0,150 Q50,100 100,150 T200,150 L200,200 L0,200 Z' fill='rgba(255,255,255,0.02)'/%3E%3C/svg%3E");
-    background-size: cover, cover, cover, 300px 300px;
+        radial-gradient(circle at 20% 80%, rgba(125, 211, 252, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(103, 232, 249, 0.15) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,100 Q50,50 100,100 T200,100 L200,200 L0,200 Z' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E");
+    background-size: cover, cover, 400px 400px;
     z-index: -2;
-    animation: floatingBubbles 20s ease-in-out infinite, waveMotion 15s ease-in-out infinite;
+    animation: waveMotion 25s ease-in-out infinite;
 }
 
 body::after {
@@ -55,14 +73,11 @@ body::after {
     width: 100%;
     height: 100%;
     background-image:
-        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 2%),
-        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 2%),
-        radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.06) 0%, transparent 1%),
-        radial-gradient(circle at 10% 60%, rgba(255, 255, 255, 0.07) 0%, transparent 1%),
-        radial-gradient(circle at 90% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 1%);
-    background-size: 200px 200px, 150px 150px, 100px 100px, 120px 120px, 180px 180px;
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.05) 0%, transparent 2%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.04) 0%, transparent 2%);
+    background-size: 300px 300px, 250px 250px;
     z-index: -1;
-    animation: lightParticles 25s linear infinite;
+    animation: lightParticles 30s linear infinite;
 }
 
 @keyframes gradientShift {
@@ -128,6 +143,42 @@ body::after {
 
     100% {
         background-position: 0 0, 0 0, 0 0, 0 0;
+    }
+}
+
+@keyframes dangerPulse {
+
+    0%,
+    100% {
+        filter: brightness(1) hue-rotate(0deg);
+    }
+
+    50% {
+        filter: brightness(1.1) hue-rotate(-10deg);
+    }
+}
+
+@keyframes moderatePulse {
+
+    0%,
+    100% {
+        filter: brightness(1) hue-rotate(0deg);
+    }
+
+    50% {
+        filter: brightness(1.05) hue-rotate(5deg);
+    }
+}
+
+@keyframes safePulse {
+
+    0%,
+    100% {
+        filter: brightness(1) hue-rotate(0deg);
+    }
+
+    50% {
+        filter: brightness(1.05) hue-rotate(-5deg);
     }
 }
 
@@ -241,11 +292,12 @@ body::after {
     font-weight: 700;
     letter-spacing: -0.03em;
     margin: 0;
-    color: #f8fafc;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .brand-name span {
-    color: #2dd4bf;
+    color: #ffffff;
     opacity: 1;
 }
 
@@ -254,14 +306,16 @@ body::after {
     font-size: 2.8rem;
     font-weight: 700;
     margin: 0 0 20px 0;
-    color: #f8fafc;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     line-height: 1.2;
     letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
     font-size: 1.15rem;
-    color: #94a3b8;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     max-width: 600px;
     margin: 0 auto 40px;
     line-height: 1.6;
@@ -300,13 +354,15 @@ body::after {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgba(14, 165, 233, 0.1);
-    border: 1px solid rgba(14, 165, 233, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 10px 24px;
     border-radius: 16px;
     font-size: 0.9rem;
-    color: #7dd3fc;
+    color: #ffffff;
     font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .disclaimer-icon {
