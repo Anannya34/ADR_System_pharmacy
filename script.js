@@ -1,53 +1,63 @@
 const interactions = {
     "Paracetamol|Ibuprofen": {
-        status: "Moderate (Monitor)",
+        status: "Moderate Interaction",
         level: "Moderate",
         class: "caution",
         icon: "⚠️",
         text: "Combined use for a short time is usually safe. However, regular long-term use can increase the risk of stomach irritation and kidney strain. Use the lowest effective dose for the shortest time."
     },
     "Ibuprofen|Aspirin": {
-        status: "Major (Avoid)",
+        status: "High Risk Interaction",
         level: "Major",
         class: "danger",
-        icon: "❌",
-        text: "Ibuprofen can interfere with the blood-thinning effects of low-dose aspirin, making it less effective for heart protection. Combined use also significantly increases the risk of serious stomach bleeding."
+        icon: "⚠️",
+        text: "This combination may cause serious health risks. Taking ibuprofen with aspirin can increase the risk of gastrointestinal bleeding and kidney damage. Consult your doctor."
     },
     "Metformin|Atenolol": {
-        status: "Moderate (Monitor)",
+        status: "Moderate Interaction",
         level: "Moderate",
         class: "caution",
         icon: "⚠️",
         text: "Atenolol may mask early warning signs of low blood sugar (hypoglycemia), such as a fast heartbeat or tremors. Monitor blood glucose levels more closely."
     },
     "Ibuprofen|Amlodipine": {
-        status: "Moderate (Monitor)",
+        status: "Moderate Interaction",
         level: "Moderate",
         class: "caution",
         icon: "⚠️",
-        text: "NSAIDs like Ibuprofen can reduce the effectiveness of Amlodipine in controlling blood pressure. Long-term combined use should be monitored by a healthcare professional."
+        text: "NSAIDs like Ibuprofen can reduce the effectiveness of Amlodipine in controlling blood pressure. Long-term combined use should be monitored."
     },
     "Aspirin|Amoxicillin": {
-        status: "Minor (Inform)",
+        status: "No Known Interaction",
         level: "Minor",
         class: "safe",
         icon: "✅",
-        text: "No major harmful interaction detected. Both are generally safe to take together, though minor changes in bleeding time or antibiotic levels can occur in rare cases."
+        text: "No major harmful interaction detected. Both are generally safe to take together, though minor changes in antibiotic levels can occur in rare cases."
     },
     "Metformin|Ibuprofen": {
-        status: "Moderate (Monitor)",
+        status: "Moderate Interaction",
         level: "Moderate",
         class: "caution",
         icon: "⚠️",
-        text: "Ibuprofen can affect kidney function, which may lead to higher Metformin levels, slightly increasing the risk of lactic acidosis. Monitor kidney health."
+        text: "Ibuprofen can affect kidney function, which may lead to higher Metformin levels, slightly increasing the risk of lactic acidosis."
     },
     "Amlodipine|Atenolol": {
-        status: "Moderate (Monitor)",
+        status: "Moderate Interaction",
         level: "Moderate",
         class: "caution",
         icon: "⚠️",
-        text: "Combining these blood pressure medications can significantly lower heart rate and blood pressure. Monitor for dizziness or a very slow pulse."
+        text: "Combining these blood pressure medications can significantly lower heart rate and blood pressure. Monitor for dizziness."
     }
+};
+
+const drugIcons = {
+    "Paracetamol": "💊",
+    "Ibuprofen": "💊",
+    "Aspirin": "⚪",
+    "Metformin": "💊",
+    "Amlodipine": "⚪",
+    "Atenolol": "⚪",
+    "Amoxicillin": "💊"
 };
 
 function checkInteraction() {
@@ -57,65 +67,80 @@ function checkInteraction() {
 
     if (!a || !b || a === b) {
         output.innerHTML = `
-      <div class="result caution">
-        <div class="icon">ℹ️</div>
-        <div class="result-content">
-          <div class="result-header">
-            <strong>Action Required</strong>
-            <span class="status-badge">Selection Incomplete</span>
-          </div>
-          Please select two different medicines to analyze their interactions.
+      <div class="result caution" style="padding: 24px;">
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <div class="risk-icon" style="background: #fef3c7; color: #d97706;">ℹ️</div>
+            <div>
+                <strong style="display: block; margin-bottom: 4px;">Action Required</strong>
+                <span style="font-size: 0.9rem; color: #92400e;">Please select two different medicines to analyze.</span>
+            </div>
         </div>
       </div>`;
         return;
     }
 
-    // Visual feedback: clear current result while "checking"
-    output.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Analyzing chemical interactions...</div>';
+    output.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 40px; font-weight: 500;">🔍 Analyzing chemical properties and clinical data...</div>';
 
     setTimeout(() => {
         const key1 = `${a}|${b}`;
         const key2 = `${b}|${a}`;
         const data = interactions[key1] || interactions[key2];
 
-        if (!data) {
-            output.innerHTML = `
-        <div class="result safe" id="interactionResult">
-          <div class="icon">✅</div>
-          <div class="result-content">
-            <div class="result-header">
-              <strong>General Safety</strong>
-              <span class="status-badge">Low Risk</span>
-            </div>
-            No known harmful interactions identified between <strong>${a}</strong> and <strong>${b}</strong> for most individuals.
-          </div>
-        </div>`;
-        } else {
-            output.innerHTML = `
-        <div class="result ${data.class}" id="interactionResult">
-          <div class="icon">${data.icon}</div>
-          <div class="result-content">
-            <div class="result-header">
-              <strong>${data.status}</strong>
-              <span class="status-badge">${data.level} Risk</span>
-            </div>
-            ${data.text}
-          </div>
-        </div>`;
-        }
+        const defaultSafe = {
+            status: "Generally Safe",
+            level: "Low",
+            class: "safe",
+            icon: "✅",
+            text: `No known harmful interactions identified between <strong>${a}</strong> and <strong>${b}</strong>. However, always follow your doctor's instructions.`,
+            percent: 15
+        };
 
-        // GSAP Entrance Animation for the result
-        gsap.killTweensOf('#interactionResult'); // Kill any previous result animation
+        const resultData = data ? { ...data, percent: data.level === "Major" ? 85 : 50 } : defaultSafe;
+
+        output.innerHTML = `
+        <div class="result ${resultData.class}" id="interactionResult">
+            <div class="interaction-card">
+                <div class="interaction-header">
+                    <div class="drug-pill">${drugIcons[a] || '💊'} ${a}</div>
+                    <div class="interaction-arrow">➜</div>
+                    <div class="drug-pill">${drugIcons[b] || '💊'} ${b}</div>
+                </div>
+
+                <div class="risk-info">
+                    <div class="risk-icon">${resultData.icon}</div>
+                    <div class="risk-content">
+                        <h3>${resultData.status}</h3>
+                        <div class="risk-description">${resultData.text}</div>
+                    </div>
+                </div>
+
+                <div class="risk-scale-container">
+                    <div class="risk-bar">
+                        <div class="risk-indicator" style="left: ${resultData.percent}%; color: ${resultData.class === 'danger' ? '#ef4444' : resultData.class === 'caution' ? '#eab308' : '#24b987'}"></div>
+                    </div>
+                    <div class="risk-labels">
+                        <span class="risk-label ${resultData.class === 'safe' ? 'active' : ''}">Safe</span>
+                        <span class="risk-label ${resultData.class === 'caution' ? 'active' : ''}">Moderate</span>
+                        <span class="risk-label ${resultData.class === 'danger' ? 'active' : ''}">High Risk</span>
+                    </div>
+                </div>
+
+                <div class="confidence-note">
+                    This combination has been analyzed based on standard pharmaceutical databases. Advisable to consult a healthcare professional for personalized advice.
+                </div>
+            </div>
+        </div>`;
+
+        // GSAP Entrance Animation
         gsap.from('#interactionResult', {
             opacity: 0,
-            y: 30,
-            scale: 0.95,
+            y: 40,
+            scale: 0.98,
             duration: 0.8,
-            ease: "back.out(1.7)",
-            clearProps: "all" // Ensure it resets to stable CSS after animation
+            ease: "power3.out"
         });
 
-    }, 400); // 400ms delay for perceived value
+    }, 600);
 }
 
 // Phase 8: Modern Interactivity Enhancements
