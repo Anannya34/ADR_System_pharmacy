@@ -152,7 +152,16 @@ function checkInteraction() {
             percent: 15
         };
 
-        const resultData = data ? { ...data, percent: data.level === "Major" ? 85 : 50 } : defaultSafe;
+        let resultData;
+        if (data) {
+            let percent = 50; // Default to Moderate
+            if (data.level === "Major") percent = 85;
+            if (data.level === "Minor" || data.level === "Safe" || data.level === "Low") percent = 15;
+
+            resultData = { ...data, percent: percent };
+        } else {
+            resultData = defaultSafe;
+        }
 
         // Change background based on risk level
         document.body.className = '';
