@@ -112,15 +112,52 @@ function App() {
                 <h2 style={{ fontSize: '1.5rem' }}>Select Combinations</h2>
               </div>
 
-              <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2.5rem', flexWrap: 'wrap', position: 'relative' }}>
                 <DrugSelector 
                   label="First Medicine" 
                   value={drugA} 
                   onChange={setDrugA} 
                 />
-                <div style={{ display: 'flex', alignItems: 'center', color: 'var(--text-muted)', paddingTop: '1.5rem' }}>
-                  <Sparkles size={20} />
+                
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  width: '40px',
+                  height: '40px',
+                  position: 'relative',
+                  marginTop: '1.5rem'
+                }}>
+                  {/* Connection Line Background */}
+                  <div style={{ 
+                    position: 'absolute', 
+                    width: '100px', 
+                    height: '2px', 
+                    background: drugA && drugB ? 'linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%)' : 'rgba(255,255,255,0.1)',
+                    zIndex: 0,
+                    opacity: drugA && drugB ? 1 : 0.3,
+                    transition: 'all 0.5s ease'
+                  }} />
+                  
+                  <motion.div
+                    animate={drugA && drugB ? { rotate: 180, scale: 1.2 } : { rotate: 0, scale: 1 }}
+                    style={{ 
+                      position: 'relative', 
+                      zIndex: 1, 
+                      backgroundColor: drugA && drugB ? 'var(--bg-dark)' : 'transparent',
+                      padding: '8px',
+                      borderRadius: '50%',
+                      border: drugA && drugB ? '1px solid var(--primary-light)' : '1px solid transparent',
+                      transition: 'all 0.5s ease'
+                    }}
+                  >
+                    <Sparkles 
+                      size={20} 
+                      color={drugA && drugB ? 'var(--primary-light)' : 'var(--text-muted)'} 
+                    />
+                  </motion.div>
                 </div>
+
                 <DrugSelector 
                   label="Second Medicine" 
                   value={drugB} 
@@ -129,14 +166,46 @@ function App() {
               </div>
 
               <Magnetic strength={0.2}>
-                <button 
+                <motion.button 
+                  animate={drugA && drugB && !isAnalyzing ? { 
+                    boxShadow: [
+                      "0 4px 15px rgba(16, 185, 129, 0.3)",
+                      "0 4px 25px rgba(16, 185, 129, 0.6)",
+                      "0 4px 15px rgba(16, 185, 129, 0.3)"
+                    ]
+                  } : {}}
+                  transition={{ repeat: Infinity, duration: 2 }}
                   onClick={handleCompare}
                   disabled={!drugA || !drugB || drugA === drugB || isAnalyzing}
                   className="btn-primary"
-                  style={{ width: '100%', fontSize: '1.1rem', opacity: (!drugA || !drugB || drugA === drugB) ? 0.6 : 1 }}
+                  style={{ 
+                    width: '100%', 
+                    fontSize: '1.1rem', 
+                    opacity: (!drugA || !drugB || drugA === drugB) ? 0.6 : 1,
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
                 >
-                  {isAnalyzing ? 'Analyzing Clinical Data...' : 'Analyze Interactions'}
-                </button>
+                  <span style={{ position: 'relative', zIndex: 2 }}>
+                    {isAnalyzing ? 'Analyzing Clinical Data...' : 'Analyze Interactions'}
+                  </span>
+                  
+                  {drugA && drugB && !isAnalyzing && (
+                    <motion.div
+                      initial={{ left: '-100%' }}
+                      animate={{ left: '100%' }}
+                      transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        width: '50%',
+                        height: '100%',
+                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                        zIndex: 1
+                      }}
+                    />
+                  )}
+                </motion.button>
               </Magnetic>
 
               {drugA && drugB && drugA === drugB && (
