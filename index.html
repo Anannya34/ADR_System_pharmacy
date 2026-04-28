@@ -1,78 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drug Interaction Awareness Tool | ARD System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-</head>
-
-<body>
-
-  <section class="hero">
-    <div class="hero-content">
-      <div class="brand">
-        <span class="brand-logo">💊</span>
-        <h1 class="brand-name">Interaction<span>Aware</span></h1>
-      </div>
-
-      <h2 class="hero-title">Check Medicine Combinations Safely</h2>
-      <p class="hero-subtitle">A public safety tool that helps you understand possible risks when two medicines are
-        taken together.</p>
-    </div>
-  </section>
-
-  <div class="container">
-
-    <div class="card">
-      <h2>Check Medicine Safety</h2>
-      <div class="selector-group">
-        <div class="selector">
-          <div class="dropdown-container">
-            <label class="dropdown-label">First Medicine</label>
-            <select id="drugA">
-              <option value="">Select medicine...</option>
-              <option>Metformin</option>
-              <option>Insulin</option>
-              <option>Glimepiride</option>
-              <option>Paracetamol</option>
-              <option>Alcohol</option>
-              <option>Vitamin B-Complex</option>
-            </select>
-          </div>
-          <div class="dropdown-container">
-            <label class="dropdown-label">Second Medicine</label>
-            <select id="drugB">
-              <option value="">Select medicine...</option>
-              <option>Metformin</option>
-              <option>Insulin</option>
-              <option>Glimepiride</option>
-              <option>Paracetamol</option>
-              <option>Alcohol</option>
-              <option>Vitamin B-Complex</option>
-            </select>
-          </div>
-        </div>
-        <button onclick="checkInteraction()">Compare Interactions</button>
-      </div>
-    </div>
-
-    <div id="output"></div>
-
-  </div>
-
-  <script src="header.js" defer></script>
-  <script src="script.js" defer></script>
-
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InteractionAware | Advanced Drug Safety Analysis</title>
+    <meta name="description" content="A professional-grade drug-to-drug interaction analyzer for medical awareness and public safety." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
