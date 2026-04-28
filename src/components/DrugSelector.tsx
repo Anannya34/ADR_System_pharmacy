@@ -10,7 +10,7 @@ interface Props {
   placeholder?: string;
 }
 
-export const DrugSelector: React.FC<Props> = ({ label, value, onChange, placeholder = "Select drug..." }) => {
+export const DrugSelector = ({ label, value, onChange, placeholder = "Select drug..." }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
 
